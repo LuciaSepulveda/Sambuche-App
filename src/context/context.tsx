@@ -7,11 +7,14 @@ export interface Context {
     status: Status
     order: Order
     bgAndBorder: bgAndBorder[]
+    final: boolean
   }
   actions: {
     changeStatus: (status: Status) => void
     addToOrder: (ingredient: Food, name: Status) => void
-    addVegetables: (vegetables: Food[]) => void
+    addVegetablesOrIngredients: (vegetables: Food[], name: string) => void
+    final: () => void
+    reset: () => void
   }
 }
 
@@ -20,7 +23,8 @@ const empty: Order = {
   meat: {name: "", price: 0, url: "", value: "1"},
   cheese: {name: "", price: 0, url: "", value: "1"},
   vegetables: [],
-  ingredients: {name: "", price: 0, url: "", value: "1"},
+  ingredients: [],
+  price: 0,
 }
 
 const UserContext = React.createContext({} as Context)
@@ -35,6 +39,7 @@ const UserProvider: React.FC = ({children}) => {
     {bg: "#D9DBE9", border: ""},
     {bg: "#D9DBE9", border: "6px solid #FFD789"},
   ])
+  const [final, setFinal] = React.useState<boolean>(false)
 
   function handleChangeStatus(s: Status) {
     setStatus(s)
@@ -73,30 +78,56 @@ const UserProvider: React.FC = ({children}) => {
       order.cheese = ingredient
       handleChangeStatus(Status.Vegetables)
     }
+    order.price = order.price + ingredient.price
+  }
+
+  function handleAddVegetablesOrIngredients(vegOrIng: Food[], name: string) {
     if (name === "vegetables") {
-      order.vegetables[order.vegetables.length] = ingredient
+      order.vegetables = vegOrIng
       handleChangeStatus(Status.Ingredients)
-    }
-    if (name === "ingredients") {
-      order.ingredients = ingredient
+      for (let i = 0; i < vegOrIng.length; i++) {
+        order.price = order.price + vegOrIng[i].price
+      }
+    } else {
+      order.ingredients = vegOrIng
       handleChangeStatus(Status.Final)
+      for (let i = 0; i < vegOrIng.length; i++) {
+        order.price = order.price + vegOrIng[i].price
+      }
     }
   }
 
-  function handleAddVegetables(vegetables: Food[]) {
-    order.vegetables = vegetables
+  function handleReset() {
+    setStatus(Status.Bread)
+    setOrder(empty)
+    setBgAndBorder([
+      {bg: "#D9DBE9", border: "6px solid #FFD789"},
+      {bg: "#D9DBE9", border: ""},
+      {bg: "#D9DBE9", border: ""},
+      {bg: "#D9DBE9", border: ""},
+      {bg: "#D9DBE9", border: "6px solid #FFD789"},
+    ])
+    setFinal(false)
+    order.price = 0
+  }
+
+  function handleFinal() {
+    setFinal(true)
   }
 
   const state: Context["state"] = {
     status,
     order,
     bgAndBorder,
+    final,
   }
 
   const actions = {
     changeStatus: handleChangeStatus,
     addToOrder: handleAddToOrder,
-    addVegetables: handleAddVegetables,
+    addVegetablesOrIngredients: handleAddVegetablesOrIngredients,
+    final: handleFinal,
+    reset: handleReset,
   }
 
   return <UserContext.Provider value={{state, actions}}>{children}</UserContext.Provider>

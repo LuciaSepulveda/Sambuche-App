@@ -26,6 +26,14 @@ export function useBgAndBorder(): Context["state"]["bgAndBorder"] {
   return bgAndBorder
 }
 
+export function viewFinal(): Context["state"]["final"] {
+  const {
+    state: {final},
+  } = React.useContext(UserContext)
+
+  return final
+}
+
 export function useChangeStatus(): Context["actions"]["changeStatus"] {
   const {
     actions: {changeStatus},
@@ -42,10 +50,26 @@ export function useAddToOrder(): Context["actions"]["addToOrder"] {
   return addToOrder
 }
 
-export function useAddVegetables(): Context["actions"]["addVegetables"] {
+export function useAddVegetables(): Context["actions"]["addVegetablesOrIngredients"] {
   const {
-    actions: {addVegetables},
+    actions: {addVegetablesOrIngredients},
   } = React.useContext(UserContext)
 
-  return addVegetables
+  return addVegetablesOrIngredients
+}
+
+export function useFinal(): Context["actions"]["final"] {
+  const {
+    actions: {final},
+  } = React.useContext(UserContext)
+
+  return final
+}
+
+export function useReset(): Context["actions"]["reset"] {
+  const {
+    actions: {reset},
+  } = React.useContext(UserContext)
+
+  return reset
 }
