@@ -1,11 +1,10 @@
-import {Center, Box, Container, Grid, GridItem, Text, HStack} from "@chakra-ui/react"
+import {Center, Container, Grid, GridItem, Text, HStack} from "@chakra-ui/react"
 import * as React from "react"
 
 import FinalOrder from "../pages/FinalOrder/FinalOrder"
 import {viewFinal} from "../context/hooks"
 import Step from "../components/Step/Step"
 import Order from "../components/Order"
-import {breads, meats, cheeses, vegetables, ingredients} from "../types/types"
 import {steps} from "../types/types"
 
 const App: React.FC = () => {

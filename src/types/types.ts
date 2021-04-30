@@ -80,14 +80,6 @@ export const ingredients: Food[] = [
   {name: "none", price: 0, url: "", value: "4"},
 ]
 
-/*
-export interface Steps {
-  title: string
-  selection: string
-  food: Food
-  name: string
-}*/
-
 export const steps: Steps[] = [
   {title: "1. Bread", selection: "Select one", food: breads, name: "bread"},
   {title: "2. Meat", selection: "Select one", food: meats, name: "meat"},

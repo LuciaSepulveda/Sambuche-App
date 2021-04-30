@@ -15,7 +15,9 @@ import {animateScroll as scroll} from "react-scroll"
 
 import {Status} from "../../types/types"
 import {Food} from "../../types/types"
-import {useAddToOrder, useAddVegetables, useFinal} from "../../context/hooks"
+import {useAddToOrder, useAddVegetablesOrIngredients, useFinal} from "../../context/hooks"
+
+import styles from "./styles.module.scss"
 
 interface Props {
   food: Food[]
@@ -31,7 +33,7 @@ const Step: React.FC<Props> = ({food, name}) => {
     boolean[]
   >([false, false, false])
   const addToOrder = useAddToOrder()
-  const addVegetables = useAddVegetables()
+  const addVegetablesOrIngredients = useAddVegetablesOrIngredients()
   const final = useFinal()
 
   const scrollTo = (n: number) => {
@@ -39,22 +41,22 @@ const Step: React.FC<Props> = ({food, name}) => {
   }
 
   const setValueAndAddToOrder = () => {
-    if (value === "0") {
-      setError(`Debe seleccionar un ${name}`)
-      console.log("Error", error)
+    if (value === "0" && name !== "vegetable") {
+      setError(`You must select a ${name}`)
     } else {
+      setError("")
       switch (name) {
         case "bread":
           addToOrder(food[parseInt(value) - 1], Status.Bread)
-          scrollTo(830)
+          scrollTo(870)
           break
         case "meat":
           addToOrder(food[parseInt(value) - 1], Status.Meat)
-          scrollTo(1700)
+          scrollTo(1750)
           break
         case "cheese":
           addToOrder(food[parseInt(value) - 1], Status.Cheese)
-          scrollTo(2600)
+          scrollTo(2630)
           break
         case "vegetable":
           for (let i = 0; i !== checkedVegetablesOrIngredients.length; i++) {
@@ -62,8 +64,8 @@ const Step: React.FC<Props> = ({food, name}) => {
               vegetables.push(food[i])
             }
           }
-          addVegetables(vegetables, "vegetables")
-          scrollTo(3450)
+          addVegetablesOrIngredients(vegetables, "vegetables")
+          scrollTo(3550)
           break
         case "ingredient":
           for (let i = 0; i !== checkedVegetablesOrIngredients.length; i++) {
@@ -71,7 +73,7 @@ const Step: React.FC<Props> = ({food, name}) => {
               ingredients.push(food[i])
             }
           }
-          addVegetables(ingredients, "ingredients")
+          addVegetablesOrIngredients(ingredients, "ingredients")
           break
         default:
           console.log("error")
@@ -224,18 +226,15 @@ const Step: React.FC<Props> = ({food, name}) => {
                     ${elem.price}
                   </Text>
                 </VStack>
-                <Box p="5% 0 0 0">
-                  <Checkbox
-                    _hover={{bg: "#A0A3BD"}}
-                    bg="#D9DBE9"
-                    border="transparent"
-                    colorScheme="purple"
-                    m="auto"
-                    size="lg"
+                <label className={styles.container}>
+                  <input
+                    className={styles.checkbox}
+                    type="checkbox"
                     value={elem.value}
                     onChange={(e) => checkVegetablesOrIngredients(e.target.checked, elem.value)}
                   />
-                </Box>
+                  <span className={styles.checkbox} />
+                </label>
               </VStack>
             ))}
           </HStack>

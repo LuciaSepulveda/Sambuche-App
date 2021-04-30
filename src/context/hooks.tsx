@@ -50,7 +50,7 @@ export function useAddToOrder(): Context["actions"]["addToOrder"] {
   return addToOrder
 }
 
-export function useAddVegetables(): Context["actions"]["addVegetablesOrIngredients"] {
+export function useAddVegetablesOrIngredients(): Context["actions"]["addVegetablesOrIngredients"] {
   const {
     actions: {addVegetablesOrIngredients},
   } = React.useContext(UserContext)
