@@ -5,7 +5,7 @@ import FinalOrder from "../pages/FinalOrder/FinalOrder"
 import {viewFinal} from "../context/hooks"
 import Step from "../components/Step/Step"
 import Order from "../components/Order"
-import {steps} from "../types/types"
+import {steps} from "../data/data"
 
 const App: React.FC = () => {
   const final = viewFinal()

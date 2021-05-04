@@ -2,7 +2,6 @@ import * as React from "react"
 import {
   Box,
   Button,
-  Checkbox,
   CheckboxGroup,
   HStack,
   Img,
@@ -52,11 +51,11 @@ const Step: React.FC<Props> = ({food, name}) => {
           break
         case "meat":
           addToOrder(food[parseInt(value) - 1], Status.Meat)
-          scrollTo(1750)
+          scrollTo(1800)
           break
         case "cheese":
           addToOrder(food[parseInt(value) - 1], Status.Cheese)
-          scrollTo(2630)
+          scrollTo(2680)
           break
         case "vegetable":
           for (let i = 0; i !== checkedVegetablesOrIngredients.length; i++) {
@@ -65,7 +64,7 @@ const Step: React.FC<Props> = ({food, name}) => {
             }
           }
           addVegetablesOrIngredients(vegetables, "vegetables")
-          scrollTo(3550)
+          scrollTo(3630)
           break
         case "ingredient":
           for (let i = 0; i !== checkedVegetablesOrIngredients.length; i++) {
